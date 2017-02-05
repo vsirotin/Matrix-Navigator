@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirection</title>
+</head>
+<body>
+<div class="container">
+    <p>You will be redirected to your language variant. If you see this page 3 seconds please click <a href="rub_main/lang_en/index.shtml">here</a>.</p>
+</div>
+<script>
+    const DEFAULT_LANG_FOLDER = "lang_en";
+    const SUPPORTED_LANGS =["en", "de", "ru"];
+    var folder = "lang_en";
+    var lang = window.navigator.userLanguage || window.navigator.language;
+    if(lang){
+        var pos_undl = lang.indexOf("-");
+        if(pos_undl != -1){
+            lang = lang.substring(0, pos_undl);
+        }
+     };
+     if(SUPPORTED_LANGS.indexOf(lang) >=0){
+        folder = "lang_" + lang;
+     }
+    window.location = "rub_main/" + folder + "/index.shtml";
+</script>
+</body>

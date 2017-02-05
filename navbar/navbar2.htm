@@ -1,0 +1,65 @@
+<nav class="navbar navbar-default" id="nav_bar">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav" >
+            <li id="rub_main"><a href="../../rub_main/lang_en/index.shtml">Main Rubric</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li  id="rub_1" ><a href=href="../../rub_1/lang_en/index.shtml">Rubric 1</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li id="rub_2" ><a href=href="../../rub_2/lang_en/index.shtml">Rubric 2</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" >
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Languages <span class="caret"></span></a>
+                <ul class="dropdown-menu" >
+                    <li id="lang_en"><a href="../../rub_main/lang_en/index.shtml">English</a></li>
+                    <li id="lang_de"><a href="../../rub_main/lang_de/index.shtml">Deutsch</a></li>
+                    <li id="lang_ru"><a href="../../rub_main/lang_ru/index.shtml">Русский</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    const RUBRIC_NAMES_TABLE = '{' +
+            '"en" : {"rub_main" : "Main Rubric",     "rub_1" : "Rubric 1",   "rub_2" : "Rubric 2"},' +
+            '"de" : {"rub_main" : "Hauptrubrik",     "rub_1" : "Rubrik 1",   "rub_2" : "Rubrik 2"},' +
+            '"ru" : {"rub_main" : "Главная рубрика", "rub_1" : "Рубрика 1",  "rub_2" : "Рубрика 2"}' +
+             '}';
+
+    const RUBRICS =["rub_main", "rub_1", "rub_2"];
+
+    $(document).ready(process_href());
+    function process_href(){
+        var href =  window.location.href;
+        var posLang = href.indexOf("/lang_");
+        if(posLang > 0){
+            var lang = href.substring(posLang + 6, posLang + 8);
+            var names = JSON.parse(RUBRIC_NAMES_TABLE)[lang];
+            var posRub = href.indexOf("/rub_");
+            if(posRub > 0){
+                 var activeRubric = href.substring(posRub + 1, posLang);
+                 resetRubrics(lang, names, activeRubric);
+            }
+        }
+    }
+    function resetRubrics(lang, names, activeRubric){
+          for(i = 0; i < RUBRICS.length; i++){
+            var rub  =RUBRICS[i];
+            resetRubric(rub, names, lang, activeRubric);
+          }
+     }
+
+     function resetRubric(rub, names, lang, activeRubric){
+        var el = $( "#" + rub);
+        var className = "";
+        if(activeRubric == rub){
+            className = "active";
+        }
+        el.toggleClass(className);
+        var inHTML = "<a href='../../" + rub + "/lang_" + lang + "/index.shtml'>" + names[rub] + "</a>"
+        el.html(inHTML);
+    }
+</script>
+
